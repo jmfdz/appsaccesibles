@@ -282,10 +282,6 @@ a {
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 247, 255, 0.96));
 }
 
-.mathml-preview math {
-  font-size: 1.35rem;
-}
-
 .mathml-stack {
   display: flex;
   flex-direction: column;
@@ -297,45 +293,6 @@ a {
   border-radius: 0.75rem;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #dbe4ef;
-}
-
-.mathml-equation math {
-  display: block;
-  font-size: 1.35rem;
-  line-height: 1.2;
-  font-family:
-    'Cambria Math',
-    'STIX Two Math',
-    'STIXGeneral',
-    'Noto Sans Math',
-    'Latin Modern Math',
-    serif;
-  letter-spacing: normal;
-  word-spacing: normal;
-  writing-mode: horizontal-tb;
-  text-orientation: mixed;
-}
-
-.mathml-equation math,
-.mathml-equation math * {
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-
-.mathml-equation mi,
-.mathml-equation mn,
-.mathml-equation mo,
-.mathml-equation mtext,
-.mathml-equation ms,
-.mathml-equation mrow,
-.mathml-equation msup,
-.mathml-equation msub,
-.mathml-equation msubsup,
-.mathml-equation mfrac,
-.mathml-equation msqrt,
-.mathml-equation mroot {
-  writing-mode: horizontal-tb;
-  text-orientation: mixed;
 }
 
 .placeholder-copy {

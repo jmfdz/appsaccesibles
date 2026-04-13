@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from 'vue'
+import MathMlPreview from '../components/MathMlPreview.vue'
 import { latexToMathML } from '../lib/mathjax'
 
 const defaultLatex = String.raw`a + b = c
@@ -185,12 +186,9 @@ watch(latexInput, processLatex, { immediate: true })
             <div v-if="errorMessage" class="error-box">{{ errorMessage }}</div>
             <template v-else-if="mathMlOutput.length">
               <div class="mathml-stack">
-                <div
-                  v-for="(equation, index) in mathMlOutput"
-                  :key="index"
-                  class="mathml-equation"
-                  v-html="equation"
-                />
+                <div v-for="(equation, index) in mathMlOutput" :key="index" class="mathml-equation">
+                  <MathMlPreview :math-ml="equation" />
+                </div>
               </div>
 
               <button
