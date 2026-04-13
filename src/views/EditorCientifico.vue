@@ -50,6 +50,15 @@ function normalizeParagraph(lines: string[]) {
   return lines.map((line) => line.trim()).join(' ')
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
 function isDisplayMathDelimiter(line: string) {
   return line === String.raw`\[` || line === '$$'
 }
@@ -176,6 +185,22 @@ function processLatex() {
         ? error.message
         : 'No se ha podido convertir el contenido a MathML.'
   }
+}
+
+function previewBlockToHtml(block: PreviewBlock) {
+  if (block.type === 'section') {
+    return `<h2>${escapeHtml(block.content)}</h2>`
+  }
+
+  if (block.type === 'subsection') {
+    return `<h3>${escapeHtml(block.content)}</h3>`
+  }
+
+  if (block.type === 'paragraph') {
+    return `<p>${escapeHtml(block.content)}</p>`
+  }
+
+  return block.content
 }
 
 async function handleFileImport(event: Event) {
@@ -325,15 +350,11 @@ watch(latexInput, processLatex, { immediate: true })
                 class="btn btn-outline-secondary btn-sm mt-3"
                 @click="showMathMlCode = !showMathMlCode"
               >
-                {{ showMathMlCode ? 'Ocultar codigo HTML' : 'Ver codigo HTML' }}
+                {{ showMathMlCode ? 'Ocultar codigo HTML + MathML' : 'Ver codigo HTML + MathML' }}
               </button>
 
               <div v-if="showMathMlCode" class="mathml-source">
-                <pre
-                  v-for="(block, index) in previewBlocks.filter((item) => item.type === 'math')"
-                  :key="`source-${index}`"
-                  class="mathml-source-block"
-                >{{ block.content }}</pre>
+                <pre class="mathml-source-block">{{ previewBlocks.map(previewBlockToHtml).join('\n') }}</pre>
               </div>
             </template>
             <p v-else class="placeholder-copy">
