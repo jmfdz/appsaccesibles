@@ -10,7 +10,13 @@ a^2 + b^2 = c^2
 \int_0^1 x^2 \, dx = \frac{1}{3}`
 
 const latexInput = ref(defaultLatex)
-const mathMlOutput = ref<string[]>([])
+type PreviewBlock =
+  | { type: 'section'; content: string }
+  | { type: 'subsection'; content: string }
+  | { type: 'paragraph'; content: string }
+  | { type: 'math'; content: string; source: string }
+
+const previewBlocks = ref<PreviewBlock[]>([])
 const errorMessage = ref('')
 const importedFileName = ref('')
 const showMathMlCode = ref(false)
@@ -40,17 +46,131 @@ const insertSnippets = [
   { label: 'Euler', value: String.raw`e^{i\pi} + 1 = 0` },
 ]
 
+function normalizeParagraph(lines: string[]) {
+  return lines.map((line) => line.trim()).join(' ')
+}
+
+function isDisplayMathDelimiter(line: string) {
+  return line === String.raw`\[` || line === '$$'
+}
+
+function isDisplayMathEndDelimiter(line: string, openingDelimiter: string | null) {
+  return (
+    (openingDelimiter === String.raw`\[` && line === String.raw`\]`) ||
+    (openingDelimiter === '$$' && line === '$$')
+  )
+}
+
+function looksLikeMathExpression(line: string) {
+  return /\\[a-zA-Z]+|[=^_{}]|\\[()[\]]/.test(line)
+}
+
+function buildPreviewBlocks(input: string): PreviewBlock[] {
+  const blocks: PreviewBlock[] = []
+  const lines = input.split('\n')
+  let paragraphLines: string[] = []
+  let mathLines: string[] = []
+  let openingDelimiter: string | null = null
+
+  const pushParagraph = () => {
+    if (!paragraphLines.length) {
+      return
+    }
+
+    blocks.push({
+      type: 'paragraph',
+      content: normalizeParagraph(paragraphLines),
+    })
+    paragraphLines = []
+  }
+
+  const pushMathBlock = () => {
+    if (!mathLines.length) {
+      return
+    }
+
+    const source = mathLines.join('\n').trim()
+
+    if (!source) {
+      mathLines = []
+      return
+    }
+
+    blocks.push({
+      type: 'math',
+      source,
+      content: latexToMathML(source),
+    })
+    mathLines = []
+  }
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim()
+
+    if (openingDelimiter) {
+      if (isDisplayMathEndDelimiter(line, openingDelimiter)) {
+        pushMathBlock()
+        openingDelimiter = null
+        continue
+      }
+
+      mathLines.push(rawLine)
+      continue
+    }
+
+    if (!line) {
+      pushParagraph()
+      continue
+    }
+
+    const sectionMatch = line.match(/^\\section\{(.+)\}$/)
+    if (sectionMatch) {
+      pushParagraph()
+      blocks.push({ type: 'section', content: sectionMatch[1].trim() })
+      continue
+    }
+
+    const subsectionMatch = line.match(/^\\subsection\{(.+)\}$/)
+    if (subsectionMatch) {
+      pushParagraph()
+      blocks.push({ type: 'subsection', content: subsectionMatch[1].trim() })
+      continue
+    }
+
+    if (isDisplayMathDelimiter(line)) {
+      pushParagraph()
+      openingDelimiter = line
+      mathLines = []
+      continue
+    }
+
+    if (looksLikeMathExpression(line)) {
+      pushParagraph()
+      blocks.push({
+        type: 'math',
+        source: line,
+        content: latexToMathML(line),
+      })
+      continue
+    }
+
+    paragraphLines.push(rawLine)
+  }
+
+  if (openingDelimiter) {
+    throw new Error('Falta el cierre de un bloque de formula delimitado por \\[...\\] o $$.')
+  }
+
+  pushParagraph()
+  return blocks
+}
+
 function processLatex() {
   try {
-    const lines = latexInput.value
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean)
-
-    mathMlOutput.value = lines.map((line) => latexToMathML(line))
+    previewBlocks.value = buildPreviewBlocks(latexInput.value)
     errorMessage.value = ''
   } catch (error) {
-    mathMlOutput.value = []
+    previewBlocks.value = []
     errorMessage.value =
       error instanceof Error
         ? error.message
@@ -125,8 +245,8 @@ watch(latexInput, processLatex, { immediate: true })
             }}
           </div>
           <div class="status-text">
-            El MathML se renderiza a la derecha y cada linea del textarea se
-            procesa como una ecuacion independiente.
+            La vista previa reconoce encabezados, parrafos y bloques matematicos
+            como `\[...\]` o `$$...$$`.
           </div>
         </div>
 
@@ -184,10 +304,19 @@ watch(latexInput, processLatex, { immediate: true })
 
           <div class="mathml-panel">
             <div v-if="errorMessage" class="error-box">{{ errorMessage }}</div>
-            <template v-else-if="mathMlOutput.length">
+            <template v-else-if="previewBlocks.length">
               <div class="mathml-stack">
-                <div v-for="(equation, index) in mathMlOutput" :key="index" class="mathml-equation">
-                  <MathMlPreview :math-ml="equation" />
+                <div v-for="(block, index) in previewBlocks" :key="index">
+                  <h3 v-if="block.type === 'section'" class="preview-section">{{ block.content }}</h3>
+                  <h4 v-else-if="block.type === 'subsection'" class="preview-subsection">
+                    {{ block.content }}
+                  </h4>
+                  <p v-else-if="block.type === 'paragraph'" class="preview-paragraph">
+                    {{ block.content }}
+                  </p>
+                  <div v-else class="mathml-equation">
+                    <MathMlPreview :math-ml="block.content" />
+                  </div>
                 </div>
               </div>
 
@@ -201,10 +330,10 @@ watch(latexInput, processLatex, { immediate: true })
 
               <div v-if="showMathMlCode" class="mathml-source">
                 <pre
-                  v-for="(equation, index) in mathMlOutput"
+                  v-for="(block, index) in previewBlocks.filter((item) => item.type === 'math')"
                   :key="`source-${index}`"
                   class="mathml-source-block"
-                >{{ equation }}</pre>
+                >{{ block.content }}</pre>
               </div>
             </template>
             <p v-else class="placeholder-copy">

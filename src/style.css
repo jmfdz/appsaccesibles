@@ -288,6 +288,27 @@ a {
   gap: 1rem;
 }
 
+.preview-section,
+.preview-subsection,
+.preview-paragraph {
+  margin: 0;
+}
+
+.preview-section {
+  color: #0f172a;
+  font-size: 1.4rem;
+}
+
+.preview-subsection {
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.preview-paragraph {
+  color: #334155;
+  line-height: 1.6;
+}
+
 .mathml-equation {
   padding: 0.9rem 1rem;
   border-radius: 0.75rem;
