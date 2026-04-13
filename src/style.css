@@ -40,6 +40,14 @@ a {
   backdrop-filter: blur(10px);
 }
 
+.app-navbar-toggler {
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+.app-navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(15, 94, 168, 0.18);
+}
+
 .app-brand {
   color: #0f172a;
   font-size: 1.1rem;
@@ -60,6 +68,13 @@ a {
 .app-nav-link:hover,
 .app-nav-link:focus {
   color: #0f5ea8;
+}
+
+@media (max-width: 991.98px) {
+  .app-navbar .navbar-nav {
+    gap: 0.25rem;
+    padding-top: 0.85rem;
+  }
 }
 
 .hero-card,
@@ -172,6 +187,43 @@ a {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
   font-size: 0.98rem;
   line-height: 1.55;
+}
+
+.talp-textarea {
+  min-height: 28rem;
+}
+
+.talp-output {
+  background: linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
+}
+
+.conversion-switch {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  border: 1px solid #dbe4ef;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f8fbff 0%, #edf4fb 100%);
+}
+
+.conversion-switch-button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #334155;
+  font-weight: 700;
+}
+
+.conversion-switch-button.active {
+  background: #0f5ea8;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(15, 94, 168, 0.22);
+}
+
+.conversion-switch-button:focus-visible {
+  outline: 2px solid rgba(15, 94, 168, 0.35);
+  outline-offset: 2px;
 }
 
 .insert-menu {
@@ -303,5 +355,11 @@ a {
   .editor-textarea,
   .mathml-panel {
     min-height: 24rem;
+  }
+
+  .conversion-switch {
+    width: 100%;
+    flex-direction: column;
+    border-radius: 1rem;
   }
 }
