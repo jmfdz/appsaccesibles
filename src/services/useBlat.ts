@@ -117,12 +117,6 @@ function decodeOutside(input: string) {
   while (index < input.length) {
     const segment = input.slice(index)
 
-    if (segment.startsWith('\\_')) {
-      output += '`'
-      index += 2
-      continue
-    }
-
     if (segment.startsWith('<br>')) {
       output += '\n'
       index += 4
@@ -198,12 +192,6 @@ function decodeMath(input: string) {
   while (index < input.length) {
     const segment = input.slice(index)
 
-    if (segment.startsWith('_\\')) {
-      output += '`'
-      index += 2
-      continue
-    }
-
     const fraction = decodeFraction(input, index)
 
     if (fraction) {
@@ -221,49 +209,49 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith('_8')) {
-      output += 'aleph'
+      output += '\\aleph'
       index += 2
       continue
     }
 
     if (segment.startsWith('lim.')) {
-      output += 'lim_{'
+      output += '\\lim_{'
       index += 4
       continue
     }
 
     if (segment.startsWith('ln.')) {
-      output += 'ln'
+      output += '\\ln'
       index += 3
       continue
     }
 
     if (segment.startsWith('log.')) {
-      output += 'log'
+      output += '\\log'
       index += 4
       continue
     }
 
     if (segment.startsWith('cos.')) {
-      output += 'cos'
+      output += '\\cos'
       index += 4
       continue
     }
 
     if (segment.startsWith('sin.')) {
-      output += 'sin'
+      output += '\\sin'
       index += 4
       continue
     }
 
     if (segment.startsWith('tan.')) {
-      output += 'tan'
+      output += '\\tan'
       index += 4
       continue
     }
 
     if (segment.startsWith("'7")) {
-      output += 'grad'
+      output += '\\nabla'
       index += 2
       continue
     }
@@ -275,19 +263,19 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith("'c")) {
-      output += 'bar'
+      output += '\\bar'
       index += 2
       continue
     }
 
     if (segment.startsWith('^:')) {
-      output += 'hat'
+      output += '\\hat'
       index += 2
       continue
     }
 
     if (segment.startsWith(':,')) {
-      output += 'vec'
+      output += '\\vec'
       index += 2
       continue
     }
@@ -323,13 +311,13 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith('^2,')) {
-      output += '!in'
+      output += '\\notin'
       index += 3
       continue
     }
 
     if (segment.startsWith('2,')) {
-      output += 'in'
+      output += '\\in'
       index += 2
       continue
     }
@@ -437,7 +425,7 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith('65')) {
-      output += 'sqrt'
+      output += '\\sqrt'
       index += 2
       continue
     }
@@ -449,25 +437,25 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith('&') && input[index + 1] === '#') {
-      output += 'int_{'
+      output += '\\int_{'
       index += 1
       continue
     }
 
     if (segment.startsWith('&') && input[index + 1] !== '5') {
-      output += 'int_{'
+      output += '\\int_{'
       index += 1
       continue
     }
 
     if (segment.startsWith('^p')) {
-      output += 'prod_{'
+      output += '\\prod_{'
       index += 2
       continue
     }
 
     if (segment.startsWith('^s')) {
-      output += 'sum_{'
+      output += '\\sum_{'
       index += 2
       continue
     }
@@ -503,19 +491,19 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith('{.')) {
-      output += 'AA'
+      output += '\\forall'
       index += 2
       continue
     }
 
     if (segment.startsWith('{?')) {
-      output += 'EE'
+      output += '\\exists'
       index += 2
       continue
     }
 
     if (segment.startsWith('{') && GREEK_UPPER_MAP[input[index + 1] ?? '']) {
-      output += input[index + 1].toUpperCase()
+      output += `\\${GREEK_UPPER_MAP[input[index + 1]]}`
       index += 2
       continue
     }
@@ -527,13 +515,13 @@ function decodeMath(input: string) {
     }
 
     if (segment.startsWith("'") && GREEK_LOWER_MAP[input[index + 1] ?? '']) {
-      output += GREEK_LOWER_MAP[input[index + 1]]
+      output += `\\${GREEK_LOWER_MAP[input[index + 1]]}`
       index += 2
       continue
     }
 
     if (segment.startsWith('^') && GREEK_UPPER_MAP[input[index + 1] ?? '']) {
-      output += GREEK_UPPER_MAP[input[index + 1]]
+      output += `\\${GREEK_UPPER_MAP[input[index + 1]]}`
       index += 2
       continue
     }
@@ -591,7 +579,6 @@ export function convertBrailleToBlatText(input: string) {
 
     if (!inMath) {
       if (segment.startsWith('\\_')) {
-        output += '`'
         inMath = true
         index += 2
         continue
@@ -605,7 +592,6 @@ export function convertBrailleToBlatText(input: string) {
     }
 
     if (segment.startsWith('_\\')) {
-      output += '`'
       inMath = false
       index += 2
       continue
