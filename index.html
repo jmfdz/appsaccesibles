@@ -13,6 +13,14 @@
     />
     <meta name="theme-color" content="#f5f8ff" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <script>
+      const redirectPath = sessionStorage.getItem('appsaccesibles.redirect')
+
+      if (redirectPath) {
+        sessionStorage.removeItem('appsaccesibles.redirect')
+        window.history.replaceState(null, '', redirectPath)
+      }
+    </script>
     <title>Apps Accesibles</title>
   </head>
   <body>

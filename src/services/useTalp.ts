@@ -300,11 +300,11 @@ function parseOutsideSegment(segment: string) {
   }
 
   if (segment.startsWith('\r\n')) {
-    return appendMathRule('<br>', 2)
+    return appendMathRule('\n', 2)
   }
 
   if (segment.startsWith('\n') || segment.startsWith('\r')) {
-    return appendMathRule('<br>', 1)
+    return appendMathRule('\n', 1)
   }
 
   const fraction = parseFraction(segment)
@@ -754,11 +754,11 @@ function parseMathSegment(segment: string, state: MathState) {
   }
 
   if (segment.startsWith('\r\n')) {
-    return appendMathRule('<br>', 2)
+    return appendMathRule('\n', 2)
   }
 
   if (segment.startsWith('\n') || segment.startsWith('\r')) {
-    return appendMathRule('<br>', 1)
+    return appendMathRule('\n', 1)
   }
 
   const char = segment[0]
