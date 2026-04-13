@@ -1,0 +1,255 @@
+:root {
+  color: #1f2937;
+  background:
+    radial-gradient(circle at top left, rgba(30, 136, 229, 0.12), transparent 28%),
+    linear-gradient(180deg, #f5f8ff 0%, #eef3f8 100%);
+  font-family:
+    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #0f5ea8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-header h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.header-copy {
+  margin: 0.75rem 0 0;
+  max-width: 52rem;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.app-nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: #0f5ea8;
+  color: #fff;
+  font-weight: 600;
+}
+
+.editor-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.editor-label {
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.editor-textarea {
+  min-height: 34rem;
+  resize: vertical;
+  border-radius: 0.9rem;
+  border: 1px solid #cbd5e1;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.insert-menu {
+  position: relative;
+}
+
+.insert-menu-list {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 18rem;
+  max-height: 22rem;
+  padding: 0.5rem;
+  overflow: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.16);
+}
+
+.insert-menu-item {
+  padding: 0.7rem 0.8rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: #1e293b;
+  text-align: left;
+}
+
+.insert-menu-item:hover {
+  background: #eff6ff;
+}
+
+.panel-title {
+  margin: 0 0 0.35rem;
+  color: #0f172a;
+  font-size: 1.1rem;
+}
+
+.panel-copy {
+  margin: 0 0 1rem;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.mathml-panel {
+  min-height: 26rem;
+  padding: 1rem;
+  overflow: auto;
+  border-radius: 0.9rem;
+  border: 1px solid #dbe4ef;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 247, 255, 0.96));
+}
+
+.mathml-preview math {
+  font-size: 1.35rem;
+}
+
+.mathml-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mathml-equation {
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dbe4ef;
+}
+
+.mathml-equation math {
+  display: block;
+  font-size: 1.35rem;
+}
+
+.placeholder-copy {
+  margin: 0;
+  color: #64748b;
+}
+
+.status-text {
+  margin-top: 0.75rem;
+  color: #475569;
+  font-size: 0.92rem;
+}
+
+.error-box {
+  padding: 0.9rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  background: #fff1f2;
+  color: #b91c1c;
+  white-space: pre-wrap;
+}
+
+.mathml-source {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #0f172a;
+  color: #dbeafe;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.88rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mathml-source-block {
+  margin: 0;
+}
+
+.mathml-source-block + .mathml-source-block {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(219, 234, 254, 0.2);
+}
+
+@media (max-width: 767.98px) {
+  .header-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .editor-card {
+    padding: 1rem;
+  }
+
+  .editor-textarea,
+  .mathml-panel {
+    min-height: 24rem;
+  }
+}
