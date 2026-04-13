@@ -34,20 +34,69 @@ a {
   min-height: 100vh;
 }
 
-.app-header {
+.app-navbar {
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(10px);
 }
 
-.header-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
+.app-brand {
+  color: #0f172a;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
-.eyebrow {
+.app-brand:hover,
+.app-brand:focus {
+  color: #0f5ea8;
+}
+
+.app-nav-link {
+  color: #334155;
+  font-weight: 600;
+}
+
+.app-nav-link.router-link-active,
+.app-nav-link:hover,
+.app-nav-link:focus {
+  color: #0f5ea8;
+}
+
+.hero-card,
+.editor-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.hero-card {
+  padding: 1.5rem;
+}
+
+.hero-title {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+
+.hero-copy {
+  margin: 1rem 0 0;
+  max-width: 46rem;
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+.feature-card {
+  max-width: 28rem;
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #dbe4ef;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.feature-label {
   margin: 0 0 0.5rem;
   color: #0f5ea8;
   font-size: 0.85rem;
@@ -56,23 +105,22 @@ a {
   text-transform: uppercase;
 }
 
-.app-header h1 {
+.feature-card h2 {
   margin: 0;
   color: #0f172a;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: 1.35rem;
 }
 
-.header-copy {
-  margin: 0.75rem 0 0;
-  max-width: 52rem;
+.feature-card p {
+  margin: 0.85rem 0 0;
   color: #475569;
-  font-size: 1rem;
 }
 
-.app-nav a {
+.feature-link {
   display: inline-flex;
   align-items: center;
-  padding: 0.7rem 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 999px;
   background: #0f5ea8;
   color: #fff;
@@ -81,10 +129,18 @@ a {
 
 .editor-card {
   padding: 1.25rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.page-title {
+  margin: 0 0 0.75rem;
+  color: #0f172a;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+}
+
+.page-copy {
+  margin: 0 0 1.5rem;
+  color: #475569;
+  font-size: 1rem;
 }
 
 .editor-toolbar {
@@ -239,11 +295,7 @@ a {
 }
 
 @media (max-width: 767.98px) {
-  .header-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
+  .hero-card,
   .editor-card {
     padding: 1rem;
   }

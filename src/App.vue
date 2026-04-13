@@ -1,22 +1,16 @@
 <template>
   <div class="app-shell">
-    <header class="app-header">
-      <div class="container py-4">
-        <p class="eyebrow">Apps Accesibles</p>
-        <div class="header-row">
-          <div>
-            <h1>Editor matemático LaTeX</h1>
-            <p class="header-copy">
-              Primera aplicación: convierte expresiones LaTeX a MathML y muestra
-              el resultado en una vista paralela.
-            </p>
-          </div>
-          <nav class="app-nav">
-            <RouterLink to="/">Inicio</RouterLink>
-          </nav>
+    <nav class="navbar navbar-expand-lg app-navbar sticky-top">
+      <div class="container">
+        <RouterLink class="navbar-brand app-brand" to="/">Apps Accesibles</RouterLink>
+
+        <div class="navbar-nav ms-auto">
+          <RouterLink class="nav-link app-nav-link" to="/editor-cientifico">
+            Editor Cientifico
+          </RouterLink>
         </div>
       </div>
-    </header>
+    </nav>
 
     <main class="container py-4 py-md-5">
       <RouterView />
